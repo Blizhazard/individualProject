@@ -32,5 +32,6 @@ for i in range(5):
     plt.imshow(images[i], cmap = 'gray')
     plt.title(titles[i])
     plt.axis('off')
+    cv2.imwrite(titles[i] + ".jpg",images[i])
 plt.tight_layout()
 plt.show()
