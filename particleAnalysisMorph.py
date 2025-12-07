@@ -28,6 +28,7 @@ for i in range(5):
     print(objects[pick])
     plt.imshow(objects[pick].image.astype(np.uint8)*255)
     plt.show()
+    breakpoint()
 #labeledImage = label2rgb(labeledImage,image=morphed, bg_label=0)
 
 '''
