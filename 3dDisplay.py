@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import cv2
 import imageio
 
-filename = "20250314_HMX_4523_ZZ_316L_300mic_2000x2000x2000x8bit.raw"
+filename = r"individualProject\20250314_HMX_4523_ZZ_316L_300mic_2000x2000x2000x8bit.raw"
 #filename = "CylinderCropped.raw"
 width, height, depth = 2000, 2000, 2000
 dtype = np.uint8
@@ -27,12 +27,19 @@ for i in range(100):
     slice_images[i] = cv2.adaptiveThreshold(slice_images[i], 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 51, 10)  
     #slice_images[i] = cv2.bitwise_not(slice_images[i])
     
-    cropMask = cv2.dilate(cropMask, k, iterations=5)
+    cropMask = cv2.dilate(cropMask, k, iterations=20)
     cropMask = cv2.erode(cropMask, k, iterations=20)
     outputImg = cv2.bitwise_and(cropMask, slice_images[i])
     slice_images[i] = outputImg
-    #cv2.imshow("slice", outputImg)
-    #cv2.waitKey(0)
+    # if i == 1:
+    #     plt.imshow(outputImg)
+    #     plt.show()
+    #     plt.imshow(cropMask)
+    #     plt.show()
 
+
+plt.imshow(slice_images[1], cmap='gray')
+plt.imshow(slice_images[99], cmap='gray')
+plt.show()
 
 imageio.volsave('output_volume.tiff', slice_images)
