@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import cv2
 import imageio
 
-filename = "20250314_HMX_4523_ZZ_316L_300mic_2000x2000x2000x8bit.raw"
+filename = "20250318_HMX_4523_ZZ_Inconel_718_20mic_2000x2000x2000x8bit.raw"
 #filename = "CylinderCropped.raw"
 width, height, depth = 2000, 2000, 2000
 dtype = np.uint8
@@ -58,4 +58,4 @@ for i in range(100):
 # plt.imshow(slice_images[1], cmap='gray')
 # plt.show()
 
-imageio.volsave('output_volume.tiff', slice_images)
+imageio.volsave('718_20mic_output_volume.tiff', slice_images)
