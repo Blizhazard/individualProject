@@ -6,8 +6,13 @@ import pandas as pd
 
 img = skimage.io.imread("output_volume.tiff")
 img = skimage.morphology.remove_small_holes(img, area_threshold=10, connectivity=1)
+
 ball = skimage.morphology.ball(1.8)
 morphedLabel = skimage.morphology.dilation(img, ball)
+
+#isotropic dilation is not working well for some reason, so using regular dilation with a ball structuring element instead
+# morphedLabel = skimage.morphology.isotropic_dilation(img, radius=1.2)
+
 labels = skimage.measure.label(morphedLabel == 0, connectivity=1)
 largeObjects = skimage.morphology.remove_small_objects(labels, min_size=4000000, connectivity=1)
 labels = labels ^ largeObjects

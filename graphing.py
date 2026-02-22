@@ -2,7 +2,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 
-df = pd.read_csv('ferretDiameter.csv')
+df = pd.read_csv('poreFerretDiameter.csv')
 
 col1, col2, col3 = df.columns
 
@@ -40,7 +40,7 @@ def add_labels(counts, patches):
 plt.xticks(bins, rotation=90)
 plt.xlabel('diameter (um)')
 plt.ylabel('Frequency')
-plt.title('Overlapping Histograms of Ferret Diameters')
+plt.title('Overlapping Histograms of Ferret Diameters of pores')
 plt.legend()
 
 plt.tight_layout()
