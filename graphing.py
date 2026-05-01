@@ -2,7 +2,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import numpy as np
 
-df = pd.read_csv('poreFerretDiameter.csv')
+df = pd.read_csv('poreFerretDiameterAdjusted.csv')
 
 col1, col2, col3 = df.columns
 
@@ -18,7 +18,7 @@ bins = np.arange(min_edge, max_edge + bin_width, bin_width)
 
 
 plt.figure(figsize=(8, 6))
-
+plt.rcParams.update({'font.size': 20})
 
 counts1, _, patches1 = plt.hist(data1, bins=bins, alpha=0.5, label=col1)
 counts2, _, patches2 = plt.hist(data2, bins=bins, alpha=0.5, label=col2)
@@ -29,7 +29,7 @@ def add_labels(counts, patches):
         if count > 0:
             x = patch.get_x() + patch.get_width() / 2
             y = patch.get_height()
-            plt.text(x, y, int(count), ha='center', va='bottom', fontsize=8)
+            plt.text(x, y, int(count), ha='center', va='bottom', fontsize=20)
 
 
 # add_labels(counts1, patches1)
@@ -37,10 +37,11 @@ def add_labels(counts, patches):
 # add_labels(counts3, patches3)
 
 
+
 plt.xticks(bins, rotation=90)
-plt.xlabel('diameter (um)')
-plt.ylabel('Frequency')
-plt.title('Overlapping Histograms of Ferret Diameters of pores')
+plt.xlabel('diameter (um)', fontsize=20)
+plt.ylabel('Frequency', fontsize=20)
+plt.title('Overlapping Histograms of Ferret Diameters of Pores', fontsize=20)
 plt.legend()
 
 plt.tight_layout()

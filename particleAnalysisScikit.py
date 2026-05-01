@@ -15,9 +15,9 @@ morphedLabel = skimage.morphology.isotropic_dilation(img, radius=4)
 labels = skimage.measure.label(morphedLabel == 0, connectivity=1)
 
 filteredLabels = skimage.morphology.remove_small_objects(labels, min_size=100)
-props = skimage.measure.regionprops_table(filteredLabels, properties=['label', 'area_filled', 'area_convex' ,'axis_major_length', 'axis_minor_length', 'feret_diameter_max'])
-df = pd.DataFrame(props)
-df.to_csv("316L_300mic_particle_analysis_results.csv", index=False)
+# props = skimage.measure.regionprops_table(filteredLabels, properties=['label', 'area_filled', 'area_convex' ,'axis_major_length', 'axis_minor_length', 'feret_diameter_max'])
+# df = pd.DataFrame(props)
+# df.to_csv("316L_300mic_particle_analysis_results.csv", index=False)
 
 
 viewer = napari.Viewer()

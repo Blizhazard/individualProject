@@ -3,7 +3,7 @@ import matplotlib.pyplot as plt
 import cv2
 import imageio
 
-filename = "20250318_HMX_4523_ZZ_Inconel_718_20mic_2000x2000x2000x8bit.raw"
+filename = "20250314_HMX_4523_ZZ_316L_300mic_2000x2000x2000x8bit.raw"
 #filename = "CylinderCropped.raw"
 width, height, depth = 2000, 2000, 2000
 dtype = np.uint8
@@ -25,15 +25,23 @@ k = np.ones((3,3),np.uint8)
 for i in range(100):
     original = slice_images[i].copy()
     cropMask = cv2.threshold(slice_images[i], 0 , 255, cv2.THRESH_BINARY + cv2.THRESH_OTSU)[1]
+    plt.imshow(cropMask, cmap='gray')
+    plt.show()
     slice_images[i] = cv2.adaptiveThreshold(slice_images[i], 255, cv2.ADAPTIVE_THRESH_GAUSSIAN_C, cv2.THRESH_BINARY, 41, 15)  
     
     #slice_images[i] = cv2.bitwise_not(slice_images[i])
     
     cropMask = cv2.dilate(cropMask, k, iterations=20)
+    plt.imshow(cropMask, cmap='gray')
+    plt.show()
     cropMask = cv2.erode(cropMask, k, iterations=30)
     outputImg = cv2.bitwise_and(cropMask, slice_images[i])
     #outputImg = cv2.morphologyEx(outputImg, cv2.MORPH_CLOSE , np.ones((2,2),np.uint8), iterations=1)
     slice_images[i] = outputImg
+    plt.imshow(cropMask, cmap='gray')
+    plt.show()
+    plt.imshow(outputImg, cmap='gray')
+    plt.show()
     # if i == 29:
     #     plt.subplot(121)
     #     plt.imshow(slice_images[i], cmap='gray')

@@ -2,12 +2,14 @@ import numpy as np
 import skimage
 import napari
 import pandas as pd
+import dask.array as da
 
-filename = "20250318_HMX_4523_ZZ_Inconel_718_20mic_2000x2000x2000x8bit.raw"
-width, height, depth = 2000, 2000, 2000
-dtype = np.uint8
+filename = r"E:\HT1762_B\20260213_HMX_4936_JP_HT1762_B_ALL_2000x2000x5748x32bit"
+width, height, depth = 2000, 2000, 5748
+# dtype = np.uint8
+dtype = np.float32
 
-slice_index = 1000  
+slice_index = 4748  
 bytes_per_voxel = np.dtype(dtype).itemsize
 slice_size = width * height * bytes_per_voxel
 offset = slice_index * slice_size
@@ -16,8 +18,8 @@ offset = slice_index * slice_size
 
 with open(filename, 'rb') as f:
     f.seek(offset)
-    slice_data = np.fromfile(f, dtype=dtype, count=width*height*100)
-img = slice_data.reshape((100, height, width)) 
+    slice_data = np.fromfile(f, dtype=dtype, count=width*height*500)
+img = slice_data.reshape((500, height, width)) 
 
 
 viewer = napari.Viewer()

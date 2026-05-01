@@ -4,31 +4,43 @@ import numpy as np
 import matplotlib.pyplot as plt
 import cv2
 import skimage
-from skimage.measure import regionprops, label
+from skimage.measure import regionprops, label, regionprops_table
 from skimage.color import label2rgb
 from scipy import ndimage as ndi
 from skimage.feature import peak_local_max
 from skimage.segmentation import watershed
 from skimage import filters, morphology, segmentation, measure, feature
 import random
+import pandas as pd
 
 image = cv2.imread('Adaptive Gaussian edited.png')
 image = cv2.threshold(image, 100, 255, cv2.THRESH_BINARY)[1]
-morphed = cv2.erode(image, cv2.getStructuringElement(cv2.MORPH_RECT, (2, 2)), iterations=2)
-morphed = cv2.morphologyEx(morphed, cv2.MORPH_CLOSE , np.ones((2,2),np.uint8))
+
+morphed = cv2.morphologyEx(image, cv2.MORPH_CLOSE , np.ones((2,2),np.uint8))
+#morphed = cv2.erode(morphed, cv2.getStructuringElement(cv2.MORPH_DIAMOND, (3, 3)), iterations=2)
+morphed = cv2.erode(morphed, cv2.getStructuringElement(cv2.MORPH_RECT, (2, 2)), iterations=4)
 morphed = cv2.morphologyEx(morphed, cv2.MORPH_OPEN , np.ones((2,2),np.uint8))
 morphed = cv2.threshold(morphed, 100, 255, cv2.THRESH_BINARY)[1]
-labeledImage, count = label(cv2.cvtColor(morphed, cv2.COLOR_BGR2GRAY), connectivity=2, return_num=True)
-print(count)
+labeledImage, count = label(cv2.cvtColor(morphed, cv2.COLOR_BGR2GRAY), connectivity=1, return_num=True)
+# print(count)
+# plt.imshow(morphed)
+# plt.show()
+# plt.imshow(labeledImage)
+# plt.show()
+props = regionprops_table(
+    labeledImage,
+    properties=('feret_diameter_max', 'area', 'area_filled')
+)
+df = pd.DataFrame(props)
+df.to_csv("2D_316L_300mic_particle_analysis_results.csv", index=False)
 objects = regionprops(labeledImage)
 objects = [obj for obj in objects if obj.area > 100]
 for i in range(5):
     pick = random.randint(0,len(objects)-1)
     print(objects[pick].area)
     print(objects[pick])
-    plt.imshow(objects[pick].image.astype(np.uint8)*255)
-    plt.show()
-    breakpoint()
+    # plt.imshow(objects[pick].image.astype(np.uint8)*255)
+    # plt.show()
 #labeledImage = label2rgb(labeledImage,image=morphed, bg_label=0)
 
 '''

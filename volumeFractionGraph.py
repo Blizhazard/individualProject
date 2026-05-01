@@ -11,7 +11,7 @@ data2 = pd.to_numeric(df[col2], errors='coerce').dropna().values
 data3 = pd.to_numeric(df[col3], errors='coerce').dropna().values
 
 all_data = np.concatenate([data1, data2, data3])
-bin_width = 5
+bin_width = 20
 min_edge = np.floor(all_data.min() / bin_width) * bin_width
 max_edge = np.ceil(all_data.max() / bin_width) * bin_width
 bins = np.arange(min_edge, max_edge + bin_width, bin_width)
@@ -33,6 +33,8 @@ vf3 = volume_fraction(data3, bins)
 bin_centers = bins[:-1] + bin_width / 2
 
 plt.figure(figsize=(8, 6))
+
+plt.rcParams.update({'font.size': 20})
 
 plt.bar(bin_centers, vf1, width=bin_width, alpha=0.5, label=col1)
 plt.bar(bin_centers, vf2, width=bin_width, alpha=0.5, label=col2)
